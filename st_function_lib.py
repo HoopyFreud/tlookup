@@ -35,7 +35,7 @@ def getCardName(card):
             case 14:
                 nameString = "King"
             case _:
-                nameString = toRoman(card["Number"])
+                nameString = str(card["Number"])
         nameString = nameString + " of " + card["Suit"]
     return nameString
 
