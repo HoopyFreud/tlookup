@@ -3,6 +3,7 @@ from extra_streamlit_components import CookieManager
 import json
 
 def appSetupKeys():
+    time.sleep(20)
     if "card_set" not in st.session_state:
         st.session_state.card_set = []
     if "new_card" not in st.session_state:
