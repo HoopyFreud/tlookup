@@ -4,7 +4,7 @@ import time
 import json
 
 def appSetupKeys():
-    time.sleep(20)
+    time.sleep(5)
     if "card_set" not in st.session_state:
         st.session_state.card_set = []
     if "new_card" not in st.session_state:
