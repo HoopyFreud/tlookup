@@ -32,6 +32,7 @@ def appSetupKeys():
             st.session_state.show_card_preview = (cookieVal == "True")
         else:
             st.session_state.show_card_preview = True
+    time.sleep(5)
 
 def appUpdateCookies():
     cookie_manager.batch_set({"numeral_type": st.session_state.numeral_type,"show_line_message": str(st.session_state.show_line_message),"show_line_inverse": str(st.session_state.show_line_inverse),"show_card_preview": str(st.session_state.show_card_preview)},max_age = 34560000)
