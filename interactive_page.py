@@ -11,7 +11,7 @@ st.markdown(
 unsafe_allow_html=True,
 )
 
-st.write(st.session_state)
+st.write(st.context.cookies)
 
 stl.appSetupKeys()   
 stl.appUpdateCookies()
