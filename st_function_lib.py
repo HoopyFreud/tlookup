@@ -1,4 +1,5 @@
 import streamlit as st
+from extra_streamlit_components import CookieManager
 import json
 
 def appSetupKeys():
@@ -6,58 +7,129 @@ def appSetupKeys():
         st.session_state.card_set = []
     if "new_card" not in st.session_state:
         st.session_state.new_card = None
+    if "numeral_type" not in st.session_state:
+        if "numeral_type" in st.context.cookies.keys():
+            st.session_state.numeral_type = st.context.cookies["numeral_type"]
+        else:
+            st.session_state.numeral_type = "Mixed"
+    if "show_line_message" not in st.session_state:
+        if "show_line_message" in st.context.cookies.keys():
+            cookieVal = st.context.cookies["show_line_message"]
+            st.session_state.show_line_message = (cookieVal == "True")
+        else:
+            st.session_state.show_line_message = True
+    if "show_line_inverse" not in st.session_state:
+        if "show_line_inverse" in st.context.cookies.keys():
+            cookieVal = st.context.cookies["show_line_inverse"]
+            st.session_state.show_line_inverse = (cookieVal == "True")
+        else:
+            st.session_state.show_line_inverse = True
+    if "show_card_preview" not in st.session_state:
+        if "show_card_preview" in st.context.cookies.keys():
+            cookieVal = st.context.cookies["show_card_preview"]
+            st.session_state.show_card_preview = (cookieVal == "True")
+        else:
+            st.session_state.show_card_preview = True
+
+def appUpdateCookies():
+    cookie_manager.batch_set({"numeral_type": st.session_state.numeral_type,"show_line_message": str(st.session_state.show_line_message),"show_line_inverse": str(st.session_state.show_line_inverse),"show_card_preview": str(st.session_state.show_card_preview)},max_age = 34560000)
+
+def resetCards():
+    st.session_state.card_set = []
+    st.session_state.new_card = None
+
+def resetSettings():
+    st.session_state.numeral_type = "Mixed"
+    st.session_state.show_line_message = True
+    st.session_state.show_line_inverse = True
+    st.session_state.show_card_preview = True
+    
+def get_manager():
+    return CookieManager()
+            
+def updateCookie(key):
+    cookie_manager.set(key,st.session_state[key],max_age = 34560000)
+            
+def displayNumeralType(numType):
+    if numType == "Mixed":
+        numType = "Mixed (Default)"
+    return numType
 
 def getCards():
     with open('jsonDB/cardTable.json', encoding='utf-8') as fh:
         jsonObject = json.load(fh)
     return jsonObject
 
+def writeCard(card):
+    for line in card["Text"]:
+        if isinstance(line,dict):
+            (lineType, line), = line.items()
+            if (lineType == "Message" and st.session_state.show_line_message == False) or (lineType == "Inverse" and st.session_state.show_line_inverse == False):
+                continue
+            line = "*" + lineType + "*: " + line
+        st.write(line)
+
 def addCard():
-    st.session_state.card_set.append(st.session_state.new_card)
-    st.session_state.new_card = None
+    if st.session_state.new_card:
+        st.session_state.card_set.append(st.session_state.new_card)
+        st.session_state.new_card = None
 
 def removeCard(ID):
     st.session_state.card_set.pop(ID)
 
 def getCardName(card):
     if card["Suit"] == "Major Arcana":
-        nameString = toRoman(card["Number"]) + ": " + card["Name"]
+        if st.session_state.numeral_type == "Arabic":
+            cardNumberString = str(card["Number"])
+        else:
+            cardNumberString = toRoman(card["Number"])
+        nameString = cardNumberString + ": " + card["Name"]
     else:
         match card["Number"]:
             case 1:
-                nameString = "Ace"
+                cardNumberString = "Ace"
             case 11:
-                nameString = "Page"
+                cardNumberString = "Page"
             case 12:
-                nameString = "Knight"
+                cardNumberString = "Knight"
             case 13:
-                nameString = "Queen"
+                cardNumberString = "Queen"
             case 14:
-                nameString = "King"
+                cardNumberString = "King"
             case _:
-                nameString = str(card["Number"])
-        nameString = nameString + " of " + card["Suit"]
+                if st.session_state.numeral_type == "Roman":
+                    cardNumberString = toRoman(card["Number"])
+                else:
+                    cardNumberString = str(card["Number"])
+        nameString = cardNumberString + " of " + card["Suit"]
     return nameString
 
 def getCardTitle(card):
     titleString = "**"
     if card["Suit"] == "Major Arcana":
-        titleString = titleString + card["Name"] + " &nbsp;&nbsp;&nbsp;- &nbsp;&nbsp;&nbsp;" + toRoman(card["Number"])
+        if st.session_state.numeral_type == "Arabic":
+            cardNumberString = str(card["Number"])
+        else:
+            cardNumberString = toRoman(card["Number"])
+        titleString = titleString + cardNumberString + " &nbsp;&nbsp;&nbsp;- &nbsp;&nbsp;&nbsp;" + card["Name"]
     else:
         match card["Number"]:
             case 1:
-                titleString = titleString + "Ace"
+                cardNumberString = "Ace"
             case 11:
-                titleString = titleString + "Page"
+                cardNumberString = "Page"
             case 12:
-                titleString = titleString + "Knight"
+                cardNumberString = "Knight"
             case 13:
-                titleString = titleString + "Queen"
+                cardNumberString = "Queen"
             case 14:
-                titleString = titleString + "King"
+                cardNumberString = "King"
             case _:
-                titleString = titleString + toRoman(card["Number"])
-        titleString = titleString + " of " + card["Suit"]
+                if st.session_state.numeral_type == "Roman":
+                    cardNumberString = toRoman(card["Number"])
+                else:
+                    cardNumberString = str(card["Number"])
+        titleString = titleString + cardNumberString + " of " + card["Suit"]
     return titleString + " &nbsp;&nbsp;&nbsp;- &nbsp;&nbsp;&nbsp;" + card["Keyword"]+"**"
 
 def toRoman(n):
@@ -91,4 +163,6 @@ romanNumeralMap = (('M', 1000),
                    ('V', 5),
                    ('IV', 4),
                    ('I', 1))
+numeralTypeList = ["Mixed","Arabic","Roman"]
+cookie_manager = get_manager()
 cardTable = getCards()
