@@ -17,23 +17,23 @@ def appSetupKeys():
             st.session_state.numeral_type = "Mixed"
     if "show_line_message" not in st.session_state:
         if "show_line_message" in st.context.cookies.keys():
-            cookieVal = st.context.cookies["show_line_message"]
-            st.write(cookieVal)
-            st.session_state.show_line_message = (cookieVal == "True")
+            st.session_state.cookieVal = st.context.cookies["show_line_message"]
+            st.write(st.session_state.cookieVal)
+            st.session_state.show_line_message = (st.session_state.cookieVal == "True")
         else:
             st.session_state.show_line_message = True
     if "show_line_inverse" not in st.session_state:
         if "show_line_inverse" in st.context.cookies.keys():
-            cookieVal = st.context.cookies["show_line_inverse"]
-            st.write(cookieVal)
-            st.session_state.show_line_inverse = (cookieVal == "True")
+            st.session_state.cookieVal = st.context.cookies["show_line_inverse"]
+            st.write(st.session_state.cookieVal)
+            st.session_state.show_line_inverse = (st.session_state.cookieVal == "True")
         else:
             st.session_state.show_line_inverse = True
     if "show_card_preview" not in st.session_state:
         if "show_card_preview" in st.context.cookies.keys():
-            cookieVal = st.context.cookies["show_card_preview"]
-            st.write(cookieVal)
-            st.session_state.show_card_preview = (cookieVal == "True")
+            st.session_state.cookieVal = st.context.cookies["show_card_preview"]
+            st.write(st.session_state.cookieVal)
+            st.session_state.show_card_preview = (st.session_state.cookieVal == "True")
         else:
             st.session_state.show_card_preview = True
     time.sleep(5)
