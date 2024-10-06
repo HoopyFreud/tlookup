@@ -50,7 +50,7 @@ def get_manager():
     return CookieManager()
             
 def updateCookie(key):
-    cookie_manager.set(key,st.session_state[key],max_age = 34560000)
+    cookie_manager.set(key,str(st.session_state[key]),max_age = 34560000)
             
 def displayNumeralType(numType):
     if numType == "Mixed":
