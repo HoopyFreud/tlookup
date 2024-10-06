@@ -11,6 +11,9 @@ st.markdown(
 unsafe_allow_html=True,
 )
 
+if "cookieVal" in st.session_state:
+    st.write(st.session_state.cookieVal)
+
 stl.appSetupKeys()   
 stl.appUpdateCookies()
 
