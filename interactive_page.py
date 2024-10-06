@@ -15,11 +15,11 @@ stl.appSetupKeys()
 stl.appUpdateCookies()
 
 with st.sidebar:
+    st.button('Reset Cards', key="reset_cards", on_click=stl.resetCards, use_container_width=True)
     st.radio('Numeral type', stl.numeralTypeList, key="numeral_type", on_change=stl.updateCookie, args=["numeral_type"], format_func=stl.displayNumeralType)
     st.checkbox('Show message text', key="show_line_message", on_change=stl.updateCookie, args=["show_line_message"])
     st.checkbox('Show inverse text', key="show_line_inverse", on_change=stl.updateCookie, args=["show_line_inverse"])
     st.checkbox('Show card preview', key="show_card_preview", on_change=stl.updateCookie, args=["show_card_preview"])
-    st.button('Reset Cards', key="reset_cards", on_click=stl.resetCards, use_container_width=True)
     st.button('Default Settings', key="reset_settings", on_click=stl.resetSettings, use_container_width=True)
 
 if st.session_state.new_card and st.session_state.show_card_preview:
