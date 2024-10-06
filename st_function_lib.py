@@ -4,35 +4,26 @@ import time
 import json
 
 def appSetupKeys():
-    time.sleep(5)
     if "card_set" not in st.session_state:
         st.session_state.card_set = []
     if "new_card" not in st.session_state:
         st.session_state.new_card = None
     if "numeral_type" not in st.session_state:
-        if "numeral_type" in st.context.cookies.keys():
-            st.session_state.numeral_type = st.context.cookies["numeral_type"]
-        else:
+        st.session_state.numeral_type = cookie_manager.get("numeral_type")
+        if st.session_state.numeral_type is None:
             st.session_state.numeral_type = "Mixed"
     if "show_line_message" not in st.session_state:
-        if "show_line_message" in st.context.cookies.keys():
-            st.session_state.cookieVal = st.context.cookies["show_line_message"]
-            st.session_state.show_line_message = (st.session_state.cookieVal == "True")
-        else:
+        st.session_state.show_line_message = cookie_manager.get("show_line_message") == "True"
+        if st.session_state.show_line_message is None:
             st.session_state.show_line_message = True
     if "show_line_inverse" not in st.session_state:
-        if "show_line_inverse" in st.context.cookies.keys():
-            st.session_state.cookieVal = st.context.cookies["show_line_inverse"]
-            st.session_state.show_line_inverse = (st.session_state.cookieVal == "True")
-        else:
+        st.session_state.show_line_inverse = cookie_manager.get("show_line_inverse") == "True"
+        if st.session_state.show_line_inverse is None:
             st.session_state.show_line_inverse = True
     if "show_card_preview" not in st.session_state:
-        if "show_card_preview" in st.context.cookies.keys():
-            st.session_state.cookieVal = st.context.cookies["show_card_preview"]
-            st.session_state.show_card_preview = (st.session_state.cookieVal == "True")
-        else:
+        st.session_state.show_card_preview = cookie_manager.get("show_card_preview") == "True"
+        if st.session_state.show_card_preview is None:
             st.session_state.show_card_preview = True
-    time.sleep(5)
 
 def appUpdateCookies():
     cookie_manager.batch_set({"numeral_type": st.session_state.numeral_type,"show_line_message": str(st.session_state.show_line_message),"show_line_inverse": str(st.session_state.show_line_inverse),"show_card_preview": str(st.session_state.show_card_preview)},max_age = 34560000)
