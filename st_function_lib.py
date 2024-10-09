@@ -2,6 +2,7 @@ import streamlit as st
 from extra_streamlit_components import CookieManager
 import time
 import json
+import base64
 
 def appSetupKeys():
     if "card_set" not in st.session_state:
@@ -50,8 +51,8 @@ def displayNumeralType(numType):
     return numType
 
 def getCards():
-    with open('jsonDB/cardTable.json', encoding='utf-8') as fh:
-        jsonObject = json.load(fh)
+    with open('jsonDB/cardTableOb', encoding='utf-8') as fh:
+        jsonObject = json.loads(base64.b64decode(fh.read()).decode('utf-8'))
     return jsonObject
 
 def writeCard(card):
