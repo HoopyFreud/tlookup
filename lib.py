@@ -51,7 +51,7 @@ def displayNumeralType(numType):
     return numType
 
 def getCards():
-    with open('jsonDB/cardTableOb', encoding='utf-8') as fh:
+    with open('cardTableOb', encoding='utf-8') as fh:
         jsonObject = json.loads(base64.b64decode(fh.read()).decode('utf-8'))
     return jsonObject
 
