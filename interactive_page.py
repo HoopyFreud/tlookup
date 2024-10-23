@@ -11,7 +11,8 @@ st.markdown(
 unsafe_allow_html=True,
 )
 
-cookie_manager = tll.get_manager()
+with st.empty():
+    cookie_manager = tll.get_manager()
 
 tll.appSetupKeys(cookie_manager)   
 tll.appUpdateCookies(cookie_manager)

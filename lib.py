@@ -1,39 +1,39 @@
 from extra_streamlit_components import CookieManager
 import streamlit as st
-import time
 import json
 import base64
+import time
 
 def appSetupKeys(manager):
     if "card_set" not in st.session_state:
         st.session_state.card_set = []
     if "new_card" not in st.session_state:
         st.session_state.new_card = None
-    if "numeral_type" not in st.session_state:
-        st.session_state.numeral_type = manager.get("numeral_type")
-        if st.session_state.numeral_type is None:
+    if ("numeral_type" not in st.session_state) or ("show_line_message" not in st.session_state) or ("show_line_inverse" not in st.session_state) or ("show_card_preview" not in st.session_state):
+        while not manager.cookies:
+            time.sleep(1)
+        if "numeral_type" not in manager.cookies.keys():
             st.session_state.numeral_type = "Mixed"
-    if "show_line_message" not in st.session_state:
-        cval = manager.get("show_line_message")
-        if cval is None:
+        else:
+            st.session_state.numeral_type = manager.cookies["numeral_type"]
+        if "show_line_message" not in manager.cookies.keys():
             st.session_state.show_line_message = True
         else:
-            st.session_state.show_line_message = cval == "True"
-    if "show_line_inverse" not in st.session_state:
+            st.session_state.show_line_message = manager.cookies["show_line_message"] == "True"
         cval = manager.get("show_line_inverse")
-        if cval is None:
+        if "show_line_inverse" not in manager.cookies.keys():
             st.session_state.show_line_inverse = True
         else:
-            st.session_state.show_line_inverse = cval == "True"
-    if "show_card_preview" not in st.session_state:
-        cval = manager.get("show_card_preview")
-        if cval is None:
+            st.session_state.show_line_inverse = manager.cookies["show_line_inverse"] == "True"
+        if "show_card_preview" not in manager.cookies.keys():
             st.session_state.show_card_preview = True
         else:
-            st.session_state.show_card_preview = cval == "True"
+            st.session_state.show_card_preview = manager.cookies["show_card_preview"] == "True"
 
 def appUpdateCookies(manager):
+    st.session_state.skip_update = True
     manager.batch_set({"numeral_type": st.session_state.numeral_type,"show_line_message": str(st.session_state.show_line_message),"show_line_inverse": str(st.session_state.show_line_inverse),"show_card_preview": str(st.session_state.show_card_preview)},max_age = 34560000)
+    del st.session_state.skip_update
 
 def resetCards():
     st.session_state.card_set = []
