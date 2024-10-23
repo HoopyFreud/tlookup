@@ -1,4 +1,3 @@
-from extra_streamlit_components import CookieManager
 import lib as tll
 import streamlit as st
 

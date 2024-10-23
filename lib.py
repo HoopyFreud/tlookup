@@ -1,3 +1,4 @@
+from extra_streamlit_components import CookieManager
 import streamlit as st
 import time
 import json
