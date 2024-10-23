@@ -16,19 +16,19 @@ def appSetupKeys(manager):
         cval = manager.get("show_line_message")
         if cval is None:
             st.session_state.show_line_message = True
-        else
+        else:
             st.session_state.show_line_message = cval
     if "show_line_inverse" not in st.session_state:
         cval = manager.get("show_line_inverse")
         if cval is None:
             st.session_state.show_line_inverse = True
-        else
+        else:
             st.session_state.show_line_inverse = cval
     if "show_card_preview" not in st.session_state:
         cval = manager.get("show_card_preview")
         if cval is None:
             st.session_state.show_card_preview = True
-        else
+        else:
             st.session_state.show_card_preview = cval
 
 def appUpdateCookies(manager):
