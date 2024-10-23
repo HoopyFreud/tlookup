@@ -48,7 +48,6 @@ def resetSettings():
 def updateCookie(manager,key):
     manager.set(key,str(st.session_state[key]),max_age = 34560000)
 
-@st.cache_resource
 def get_manager():
     return CookieManager()
             
