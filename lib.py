@@ -18,19 +18,19 @@ def appSetupKeys(manager):
         if cval is None:
             st.session_state.show_line_message = True
         else:
-            st.session_state.show_line_message = cval
+            st.session_state.show_line_message = cval == "True"
     if "show_line_inverse" not in st.session_state:
         cval = manager.get("show_line_inverse")
         if cval is None:
             st.session_state.show_line_inverse = True
         else:
-            st.session_state.show_line_inverse = cval
+            st.session_state.show_line_inverse = cval == "True"
     if "show_card_preview" not in st.session_state:
         cval = manager.get("show_card_preview")
         if cval is None:
             st.session_state.show_card_preview = True
         else:
-            st.session_state.show_card_preview = cval
+            st.session_state.show_card_preview = cval == "True"
 
 def appUpdateCookies(manager):
     manager.batch_set({"numeral_type": st.session_state.numeral_type,"show_line_message": str(st.session_state.show_line_message),"show_line_inverse": str(st.session_state.show_line_inverse),"show_card_preview": str(st.session_state.show_card_preview)},max_age = 34560000)
