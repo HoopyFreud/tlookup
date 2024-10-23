@@ -1,33 +1,38 @@
 import streamlit as st
-from extra_streamlit_components import CookieManager
 import time
 import json
 import base64
 
-def appSetupKeys():
+def appSetupKeys(manager):
     if "card_set" not in st.session_state:
         st.session_state.card_set = []
     if "new_card" not in st.session_state:
         st.session_state.new_card = None
     if "numeral_type" not in st.session_state:
-        st.session_state.numeral_type = cookie_manager.get("numeral_type")
+        st.session_state.numeral_type = manager.get("numeral_type")
         if st.session_state.numeral_type is None:
             st.session_state.numeral_type = "Mixed"
     if "show_line_message" not in st.session_state:
-        st.session_state.show_line_message = cookie_manager.get("show_line_message") == "True"
-        if st.session_state.show_line_message is None:
+        cval = manager.get("show_line_message")
+        if cval is None:
             st.session_state.show_line_message = True
+        else
+            st.session_state.show_line_message = cval
     if "show_line_inverse" not in st.session_state:
-        st.session_state.show_line_inverse = cookie_manager.get("show_line_inverse") == "True"
-        if st.session_state.show_line_inverse is None:
+        cval = manager.get("show_line_inverse")
+        if cval is None:
             st.session_state.show_line_inverse = True
+        else
+            st.session_state.show_line_inverse = cval
     if "show_card_preview" not in st.session_state:
-        st.session_state.show_card_preview = cookie_manager.get("show_card_preview") == "True"
-        if st.session_state.show_card_preview is None:
+        cval = manager.get("show_card_preview")
+        if cval is None:
             st.session_state.show_card_preview = True
+        else
+            st.session_state.show_card_preview = cval
 
-def appUpdateCookies():
-    cookie_manager.batch_set({"numeral_type": st.session_state.numeral_type,"show_line_message": str(st.session_state.show_line_message),"show_line_inverse": str(st.session_state.show_line_inverse),"show_card_preview": str(st.session_state.show_card_preview)},max_age = 34560000)
+def appUpdateCookies(manager):
+    manager.batch_set({"numeral_type": st.session_state.numeral_type,"show_line_message": str(st.session_state.show_line_message),"show_line_inverse": str(st.session_state.show_line_inverse),"show_card_preview": str(st.session_state.show_card_preview)},max_age = 34560000)
 
 def resetCards():
     st.session_state.card_set = []
@@ -38,12 +43,13 @@ def resetSettings():
     st.session_state.show_line_message = True
     st.session_state.show_line_inverse = True
     st.session_state.show_card_preview = True
-    
+            
+def updateCookie(manager,key):
+    manager.set(key,str(st.session_state[key]),max_age = 34560000)
+
+@st.cache_resource
 def get_manager():
     return CookieManager()
-            
-def updateCookie(key):
-    cookie_manager.set(key,str(st.session_state[key]),max_age = 34560000)
             
 def displayNumeralType(numType):
     if numType == "Mixed":
@@ -159,5 +165,4 @@ romanNumeralMap = (('M', 1000),
                    ('IV', 4),
                    ('I', 1))
 numeralTypeList = ["Mixed","Arabic","Roman"]
-cookie_manager = get_manager()
 cardTable = getCards()

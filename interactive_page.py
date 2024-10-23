@@ -1,3 +1,4 @@
+from extra_streamlit_components import CookieManager
 import lib as tll
 import streamlit as st
 
@@ -11,15 +12,17 @@ st.markdown(
 unsafe_allow_html=True,
 )
 
-tll.appSetupKeys()   
-tll.appUpdateCookies()
+cookie_manager = tll.get_manager()
+
+tll.appSetupKeys(cookie_manager)   
+tll.appUpdateCookies(cookie_manager)
 
 with st.sidebar:
     st.button('Reset Cards', key="reset_cards", on_click=tll.resetCards, use_container_width=True)
-    st.radio('Numeral type', tll.numeralTypeList, key="numeral_type", on_change=tll.updateCookie, args=["numeral_type"], format_func=tll.displayNumeralType)
-    st.checkbox('Show message text', key="show_line_message", on_change=tll.updateCookie, args=["show_line_message"])
-    st.checkbox('Show inverse text', key="show_line_inverse", on_change=tll.updateCookie, args=["show_line_inverse"])
-    st.checkbox('Show card preview', key="show_card_preview", on_change=tll.updateCookie, args=["show_card_preview"])
+    st.radio('Numeral type', tll.numeralTypeList, key="numeral_type", on_change=tll.updateCookie, args=[cookie_manager,"numeral_type"], format_func=tll.displayNumeralType)
+    st.checkbox('Show message text', key="show_line_message", on_change=tll.updateCookie, args=[cookie_manager,"show_line_message"])
+    st.checkbox('Show inverse text', key="show_line_inverse", on_change=tll.updateCookie, args=[cookie_manager,"show_line_inverse"])
+    st.checkbox('Show card preview', key="show_card_preview", on_change=tll.updateCookie, args=[cookie_manager,"show_card_preview"])
     st.button('Default Settings', key="reset_settings", on_click=tll.resetSettings, use_container_width=True)
 
 if st.session_state.new_card and st.session_state.show_card_preview:
