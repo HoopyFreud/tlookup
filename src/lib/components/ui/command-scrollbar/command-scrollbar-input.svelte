@@ -1,20 +1,28 @@
 <script lang="ts">
 	import { Command as CommandPrimitive } from "bits-ui";
 	import { cn } from "$lib/utils.js";
+    import { Button } from "$lib/components/ui/button/index.js";
 	import * as InputGroup from "$lib/components/ui/input-group/index.js";
 	import SearchIcon from '@lucide/svelte/icons/search';
 	import X from '@lucide/svelte/icons/x';
-    import Button from "../button/button.svelte";
 
 	let {
+		cancelClickEvent,
 		ref = $bindable(null),
 		class: className,
 		value = $bindable(),
 		...restProps
-	}: CommandPrimitive.InputProps = $props();
+	}: CommandPrimitive.InputProps & {
+		cancelClickEvent: Function
+	} = $props();
 
 	if (value === null) {
 		value = "";
+	}
+
+	export function resetInput() {
+		value = "";
+		cancelClickEvent();
 	}
 </script>
 
@@ -37,7 +45,7 @@
 			<SearchIcon class="size-4 shrink-0 opacity-50" />
 		</InputGroup.Addon>
 		<InputGroup.Addon align="inline-end">
-			<Button size="icon-sm" variant="ghost"><X /></Button>
+			<Button size="icon-sm" variant="ghost" onclick={()=>resetInput()}><X /></Button>
 		</InputGroup.Addon>
 	</InputGroup.Root>
 </div>
