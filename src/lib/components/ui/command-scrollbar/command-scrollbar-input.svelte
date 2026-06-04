@@ -4,15 +4,18 @@
     import { Button } from "$lib/components/ui/button/index.js";
 	import * as InputGroup from "$lib/components/ui/input-group/index.js";
 	import SearchIcon from '@lucide/svelte/icons/search';
+	import Shuffle from '@lucide/svelte/icons/shuffle';
 	import X from '@lucide/svelte/icons/x';
 
 	let {
+		shuffleClickEvent,
 		cancelClickEvent,
 		ref = $bindable(null),
 		class: className,
 		value = $bindable(),
 		...restProps
 	}: CommandPrimitive.InputProps & {
+		shuffleClickEvent: Function
 		cancelClickEvent: Function
 	} = $props();
 
@@ -23,6 +26,10 @@
 	export function resetInput() {
 		value = "";
 		cancelClickEvent();
+	}
+
+	export function shuffleInput() {
+		shuffleClickEvent();
 	}
 </script>
 
@@ -44,7 +51,8 @@
 		<InputGroup.Addon>
 			<SearchIcon class="size-4 shrink-0 opacity-50" />
 		</InputGroup.Addon>
-		<InputGroup.Addon align="inline-end">
+		<InputGroup.Addon class="gap-0" align="inline-end">
+			<Button size="icon-sm" variant="ghost" onclick={()=>shuffleInput()}><Shuffle /></Button>
 			<Button size="icon-sm" variant="ghost" onclick={()=>resetInput()}><X /></Button>
 		</InputGroup.Addon>
 	</InputGroup.Root>

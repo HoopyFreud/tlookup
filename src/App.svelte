@@ -42,6 +42,10 @@
   function resetSelectID() {
 	selectID = "";
   }
+
+  function randomSelectID() {
+	selectID = cardTable[Math.floor(Math.random()*cardTable.length)].id;
+  }
   
   function addToTableuClick() {
 	if(selectID) {
@@ -63,7 +67,7 @@
 	<div class="h-1/2">
 	  <!-- card selection area -->
 	  <Command.Root class={["max-h-full min-h-1/3 rounded-lg border shadow-md md:min-w-112.5",selectID?"h-1/3":"h-full"]} value={selectID} disablePointerSelection={true} vimBindings={false}>
-	  <Command.Input placeholder="Select or search for a card" cancelClickEvent={resetSelectID} value={selectCard?.name} bind:this={inputComponent}/>
+	  <Command.Input placeholder="Select or search for a card" cancelClickEvent={resetSelectID} shuffleClickEvent={randomSelectID} value={selectCard?.name} bind:this={inputComponent}/>
 	  <Command.List class="overflow-y-auto h-full">
 	  <Command.Empty>No cards found</Command.Empty>
 	  {#each suitedCards as suit}
