@@ -82,7 +82,7 @@
 	  <!-- selected card display area -->
 	  <div class={["max-h-2/3 overflow-y-auto",selectID?"h-2/3":"h-0"]}>
 	  {#if selectCard}
-	  <Card.Root class="max-w-full gap-0 h-full">
+	  <Card.Root class="overflow-y-auto max-w-full gap-0 h-full">
 		  <Card.Header>
 		  <Card.Title>{selectCard.name}</Card.Title>
 		  <Card.Description>{selectCard.keyword}</Card.Description>
@@ -106,7 +106,7 @@
 	<!-- tableau area -->
 	<div class="h-fit overflow-y-auto px-4 gap-4 grid justify-items-center grid-cols-1 md:grid-cols-3 md:min-w-112.5">
 	{#each cardTableauArray as tableauCard, tableauCardIndex}
-	<Card.Root class="w-full gap-4 min-h-35">
+	<Card.Root class="w-full gap-4 min-h-50">
 	  <Card.Header>
 		<Card.Title>{tableauCard.name}</Card.Title>
 		<Card.Description>{tableauCard.keyword}</Card.Description>
@@ -115,7 +115,7 @@
 		<Popover.Root>
   		  <Popover.Trigger class={buttonVariants({ variant: "default" })}>Description</Popover.Trigger>
   		  <Popover.Content>
-			<Card.Root class="w-full gap-4 min-h-35">
+			<Card.Root class="w-full gap-4 min-h-50">
 	  		  <Card.Header>
 				<Card.Title>{tableauCard.name}</Card.Title>
 				<Card.Description>{tableauCard.keyword}</Card.Description>
