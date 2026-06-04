@@ -114,7 +114,7 @@
 	  <Card.Content>
 		<Popover.Root>
   		  <Popover.Trigger class={buttonVariants({ variant: "default" })}>Description</Popover.Trigger>
-  		  <Popover.Content class="overflow-y-auto">
+  		  <Popover.Content class="max-h-[75vh]">
 			<Card.Root class="overflow-y-auto w-full gap-4 min-h-50">
 	  		  <Card.Header>
 				<Card.Title>{tableauCard.name}</Card.Title>
