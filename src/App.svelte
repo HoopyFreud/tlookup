@@ -59,7 +59,7 @@
   }
 </script>
 
-  <div id="app" class="h-screen">
+  <div id="app" class="h-dvh">
 	<div class="h-1/2">
 	  <!-- card selection area -->
 	  <Command.Root class={["max-h-full min-h-1/3 rounded-lg border shadow-md md:min-w-112.5",selectID?"h-1/3":"h-full"]} value={selectID} disablePointerSelection={true} vimBindings={false}>
