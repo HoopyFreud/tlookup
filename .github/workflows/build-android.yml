@@ -54,8 +54,11 @@ jobs:
       - name: Capacitor sync
         run: pnpm exec cap sync
 
+      - name: Update gradle
+        run: cd android && ./gradlew :wrapper --gradle-version 9.7.0
+
       - name: Build app bundle
-        run: cd android && ./gradlew --no-daemon assembleRelease
+        run: ./gradlew --no-daemon assembleRelease
 
       - name: Align and Sign Build
         uses: kevin-david/zipalign-sign-android-release@v2
