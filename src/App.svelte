@@ -10,7 +10,6 @@
 
   import cardTableB64 from "./assets/cardTableB64?raw";
 
-  console.log(Buffer.from(cardTableB64, "base64").toString())
   const cardTable = JSON.parse(Buffer.from(cardTableB64, "base64").toString())
 
   interface Card {
