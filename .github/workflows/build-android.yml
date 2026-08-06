@@ -20,7 +20,7 @@ jobs:
         uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
-          java-version: '26'
+          java-version: '19'
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v4
@@ -53,9 +53,6 @@ jobs:
 
       - name: Capacitor sync
         run: pnpm exec cap sync
-
-      - name: Update gradle
-        run: cd android && ./gradlew :wrapper --gradle-version 9.7.0
 
       - name: Build app bundle
         run: ./gradlew --no-daemon assembleRelease
