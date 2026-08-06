@@ -6,7 +6,11 @@
   import { Button, buttonVariants } from "$lib/components/ui/button/index.js";
   import { Separator } from "$lib/components/ui/separator/index.js";
 
-  import cardTable from "./assets/cardTable.json";
+  import { Buffer } from "buffer"
+
+  import cardTableB64 from "./assets/cardTableB64.txt";
+
+  const cardTable = JSON.parse(Buffer.from(cardTableB64, "base64").toString())
 
   const suitedCards = 
   [
