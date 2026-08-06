@@ -38,7 +38,7 @@ jobs:
         run: pnpm run build
 
       - name: Capacitor sync
-        run: pnpx cap sync
+        run: npx cap sync
 
       - name: Build app bundle
         run: cd android && ./gradlew bundle
