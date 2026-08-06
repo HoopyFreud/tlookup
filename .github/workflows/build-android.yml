@@ -49,8 +49,11 @@ jobs:
           echo "${{ secrets.KEYSTORE_BASE64 }}" > android/release.jks.base64
           base64 -d android/release.jks.base64 > android/release.decrypted.jks
 
+      - name: Align build
+        run: zipalign -v -p 4 ./android/app/build/outputs/apk/app-release.apk ./android/app/build/outputs/apk/app-release-aligned.apk
+
       - name: Sign build
-        run: jarsigner -keystore android/release.decrypted.jks -storepass "${{ secrets.KEYSTORE_PASSWORD }}" -signedjar ./android/app/build/outputs/bundle/release/app-release-signed.apk ./android/app/build/outputs/bundle/release/app-release.apk ${{ secrets.KEY_ALIAS }}
+        run: apksigner sign --ks android/release.decrypted.jks --ks-pass ${{ secrets.KEYSTORE_PASSWORD }} --key-pass ${{ secrets.KEY_PASSWORD }} --out ./android/app/build/outputs/apk/app-release-signed.apk ./android/app/build/outputs/apk/app-release-aligned.apk
         
       - name: release
         uses: actions/create-release@v1
