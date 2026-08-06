@@ -44,9 +44,6 @@ jobs:
       - name: Build app bundle
         run: cd android && ./gradlew --no-daemon assembleRelease
 
-      - name: list dir contents
-        run: ls -R ./android/app/build/outputs
-
       - name: Align and Sign Build
         uses: kevin-david/zipalign-sign-android-release@v2
         # ID used to access action output
@@ -58,6 +55,8 @@ jobs:
           keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
           keyPassword: ${{ secrets.KEY_PASSWORD }}
           zipAlign: true
+        env:
+          BUILD_TOOLS_VERSION: "34.0.0"
         
       - name: release
         uses: actions/create-release@v1
