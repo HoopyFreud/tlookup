@@ -37,7 +37,7 @@ jobs:
         run: pnpm ci
 
       - name: Install Android app dependencies
-        run: pnpm install @capacitor/core @capacitor/cli @capacitor/android @capacitor/assets
+        run: pnpm install @capacitor/core @capacitor/cli @capacitor/android @capacitor/assets && pnpm approve-builds --all
 
       - name: Build project app
         run: pnpm run build
