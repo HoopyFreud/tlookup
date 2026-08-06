@@ -33,11 +33,14 @@ jobs:
           version: "^11.20.0"
           install: false
 
+      - name: Preapprove build scripts
+        run: pnpm config set --local dangerouslyAllowAllBuilds true
+
       - name: Install standard dependencies
         run: pnpm ci
 
       - name: Install Android app dependencies
-        run: pnpm add --allow-build=sharp @capacitor/core @capacitor/cli @capacitor/android @capacitor/assets
+        run: pnpm add @capacitor/core @capacitor/cli @capacitor/android @capacitor/assets
 
       - name: Build project app
         run: pnpm run build
