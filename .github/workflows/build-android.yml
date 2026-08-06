@@ -26,11 +26,6 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '26'
-          
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v4
-        with:
-          packages: 'zipalign apksigner'
 
       - name: Setup Node.js
         uses: actions/setup-node@v7
@@ -49,16 +44,17 @@ jobs:
       - name: Build app bundle
         run: cd android && ./gradlew assembleRelease
 
-      - name: Extract Android signing key from env
-        run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" > android/release.jks.base64
-          base64 -d android/release.jks.base64 > android/release.decrypted.jks
-
-      - name: Align build
-        run: zipalign -v -p 4 ./android/app/build/outputs/apk/app-release.apk ./android/app/build/outputs/apk/app-release-aligned.apk
-
-      - name: Sign build
-        run: apksigner sign --ks android/release.decrypted.jks --ks-pass ${{ secrets.KEYSTORE_PASSWORD }} --key-pass ${{ secrets.KEY_PASSWORD }} --out ./android/app/build/outputs/apk/app-release-signed.apk ./android/app/build/outputs/apk/app-release-aligned.apk
+      - name: Align and Sign Build
+        uses: kevin-david/zipalign-sign-android-release@v2
+        # ID used to access action output
+        id: sign_app
+        with:
+          releaseDirectory: app/build/outputs/apk
+          signingKeyBase64: ${{ secrets.KEYSTORE_BASE64 }}
+          alias: ${{ secrets.KEY_ALIAS }}
+          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+          zipAlign: true
         
       - name: release
         uses: actions/create-release@v1
@@ -77,6 +73,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-          asset_path: android/app/build/outputs/bundle/release/app-release-signed.apk
+          asset_path: ${{steps.sign_app.outputs.signedReleaseFile}}
           asset_name: tlookup.apk
           asset_content_type: application/apk
