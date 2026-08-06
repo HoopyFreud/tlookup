@@ -27,13 +27,13 @@ jobs:
           node-version: 20.x
 
       - name: Install app dependencies
-        run: npm install
+        run: pnpm install
 
       - name: Build project app
-        run: npm run build
+        run: pnpm run build
 
       - name: Capacitor sync
-        run: npx cap sync
+        run: pnpx cap sync
 
       - name: Build app bundle
         run: cd android && ./gradlew bundle
@@ -44,11 +44,11 @@ jobs:
           base64 -d android/release.jks.base64 > android/release.decrypted.jks
 
       - name: Sign build
-        run: jarsigner -keystore android/release.decrypted.jks -storepass "${{ secrets.KEYSTORE_PASSWORD }}" -signedjar ./android/app/build/outputs/bundle/release/app-release-signed.aab ./android/app/build/outputs/bundle/release/app-release.aab dust
+        run: jarsigner -keystore android/release.decrypted.jks -storepass "${{ secrets.KEYSTORE_PASSWORD }}" -signedjar ./android/app/build/outputs/bundle/release/app-release-signed.apk ./android/app/build/outputs/bundle/release/app-release.apk dust
 
       - name: Upload release bundle
         uses: actions/upload-artifact@v4
         with:
           name: app-release
-          path: android/app/build/outputs/bundle/release/app-release-signed.aab
+          path: android/app/build/outputs/bundle/release/app-release-signed.apk
           retention-days: 60
