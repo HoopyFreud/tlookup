@@ -44,12 +44,15 @@ jobs:
       - name: Build app bundle
         run: cd android && ./gradlew assembleRelease
 
+      - name: list dir contents
+        run: ls -R
+
       - name: Align and Sign Build
         uses: kevin-david/zipalign-sign-android-release@v2
         # ID used to access action output
         id: sign_app
         with:
-          releaseDirectory: app/build/outputs/apk
+          releaseDirectory: app/build/outputs/apk/release
           signingKeyBase64: ${{ secrets.KEYSTORE_BASE64 }}
           alias: ${{ secrets.KEY_ALIAS }}
           keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
