@@ -39,10 +39,10 @@ jobs:
         run: pnpm run build
 
       - name: Capacitor sync
-        run: npx cap sync
+        run: pnpm exec cap sync
 
       - name: Build app bundle
-        run: cd android && ./gradlew bundle
+        run: cd android && ./gradlew assembleRelease
 
       - name: Extract Android signing key from env
         run: |
@@ -50,7 +50,7 @@ jobs:
           base64 -d android/release.jks.base64 > android/release.decrypted.jks
 
       - name: Sign build
-        run: jarsigner -keystore android/release.decrypted.jks -storepass "${{ secrets.KEYSTORE_PASSWORD }}" -signedjar ./android/app/build/outputs/bundle/release/app-release-signed.apk ./android/app/build/outputs/bundle/release/app-release.apk dust
+        run: jarsigner -keystore android/release.decrypted.jks -storepass "${{ secrets.KEYSTORE_PASSWORD }}" -signedjar ./android/app/build/outputs/bundle/release/app-release-signed.apk ./android/app/build/outputs/bundle/release/app-release.apk
         
       - name: release
         uses: actions/create-release@v1
