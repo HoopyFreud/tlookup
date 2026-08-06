@@ -9,6 +9,7 @@ on:
 jobs:
   build:
     name: Build APK
+    environment: Android
     runs-on: ubuntu-latest
 
     steps:
