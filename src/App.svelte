@@ -10,36 +10,44 @@
 
   import cardTableB64 from "./assets/cardTableB64.txt";
 
+  console.log(Buffer.from(cardTableB64, "base64").toString())
   const cardTable = JSON.parse(Buffer.from(cardTableB64, "base64").toString())
+
+  interface Card {
+  name: string;
+  id: string;
+  keyword: string;
+  text: string[];
+}
 
   const suitedCards = 
   [
 	{
 	  name: "Major Arcana",
-	  cards: cardTable.filter((card) => card.id.charAt(0)=="M")
+	  cards: cardTable.filter((card: Card) => card.id.charAt(0)=="M")
 	},
 	{
 	  name: "Coins",
-	  cards: cardTable.filter((card) => card.id.charAt(0)=="C")
+	  cards: cardTable.filter((card: Card) => card.id.charAt(0)=="C")
 	},
 	{
 	  name: "Cups",
-	  cards: cardTable.filter((card) => card.id.charAt(0)=="U")
+	  cards: cardTable.filter((card: Card) => card.id.charAt(0)=="U")
 	},
 	{
 	  name: "Wands",
-	  cards: cardTable.filter((card) => card.id.charAt(0)=="W")
+	  cards: cardTable.filter((card: Card) => card.id.charAt(0)=="W")
 	},
 	{
 	  name: "Swords",
-	  cards: cardTable.filter((card) => card.id.charAt(0)=="S")
+	  cards: cardTable.filter((card: Card) => card.id.charAt(0)=="S")
 	}
   ]
 
   let cardTableauArray: Array<{ name: string, id: string, keyword: string, text: Array<string>}> = $state([])
 
   let selectID = $state("");
-  let selectCard = $derived(cardTable.find((f) => f.id == selectID));
+  let selectCard = $derived(cardTable.find((f: Card) => f.id == selectID));
 
   let inputComponent:Command.Input;
 
@@ -53,7 +61,7 @@
   
   function addToTableuClick() {
 	if(selectID) {
-	  const newTableauCard = cardTable.find((f) => f.id == selectID)
+	  const newTableauCard = cardTable.find((f: Card) => f.id == selectID)
 	  if (newTableauCard) {
 	    cardTableauArray.push(newTableauCard);
 	    inputComponent.resetInput();
