@@ -55,7 +55,7 @@ jobs:
         run: pnpm exec cap sync
 
       - name: Build app bundle
-        run: ./gradlew --no-daemon assembleRelease
+        run: cd android && ./gradlew --no-daemon assembleRelease
 
       - name: Align and Sign Build
         uses: kevin-david/zipalign-sign-android-release@v2
