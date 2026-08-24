@@ -2,15 +2,17 @@ name: Build Android
 
 on:
   push:
-    branches: [ "main" ]
-    tags:
-      - "*.*.*"
+    branches:
+      - main
 
 jobs:
   build:
     name: Build APK
     environment: Android
     runs-on: ubuntu-latest
+    if: github.ref_type == 'tag'
+    env:
+      APKPath: "/tlookup-${{github.ref}}.apk"
 
     steps: 
       - name: Checkout source
@@ -70,9 +72,12 @@ jobs:
           zipAlign: true
         env:
           BUILD_TOOLS_VERSION: "34.0.0"
+
+      - name: rename file
+        run: mv ${{ steps.sign_app.outputs.signedReleaseFile }} $APKPath
         
       - name: release
         uses: softprops/action-gh-release@v3
         id: create_release
         with:
-          files: ${{ steps.sign_app.outputs.signedReleaseFile }}
+          files: $APKPath
