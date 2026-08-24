@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref_type == 'tag'
     env:
-      APKPath: "./tlookup-${{github.ref_name}}.apk"
+      APKPath: "tlookup-${{github.ref_name}}.apk"
 
     steps: 
       - name: Checkout source
