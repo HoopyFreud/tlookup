@@ -9,7 +9,7 @@
 
 	import { Buffer } from "buffer"
 
-	import cardTableB64 from "./lib/cardTableb64.raw?raw";
+	import cardTableB64 from "./lib/cardTableB64?raw";
 
 	const cardTable = JSON.parse(Buffer.from(cardTableB64, "base64").toString())
 
