@@ -1,0 +1,5 @@
+@font-face {
+    font-family: 'Engebrechtre';
+    font-style: normal;
+    src: local(''), url('/assets/Engebrechtre.woff2') format('woff2'),
+}
