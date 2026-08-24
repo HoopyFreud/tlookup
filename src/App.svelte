@@ -123,9 +123,9 @@
 	</div>
 
 	<!-- tableau area -->
-	<div class="h-auto overflow-y-auto px-4 gap-4 flex flex-row flex-wrap justify-around">
+	<div class="h-auto overflow-y-auto px-4 gap-4 flex justify-around flex-col md:flex-row md:flex-wrap ">
 		{#each cardTableauArray as tableauCard, tableauCardIndex}
-			<Card.Root class="h-fit w-1/4 gap-4 min-h-50 min-w-50">
+			<Card.Root class="h-fit gap-4 min-h-50 min-w-50 w-full md:w-1/4 ">
 				<Card.Header>
 					<Card.Title><h2>{tableauCard.name}</h2></Card.Title>
 					<Card.Description class="text-base" style="font-family: Engebrechtre">{tableauCard.keyword}</Card.Description>
